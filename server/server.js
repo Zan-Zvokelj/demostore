@@ -14,8 +14,9 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Serve Angular frontend
-app.use(express.static(path.join(__dirname, "dist/store/browser")));
+// ✅ Serve Angular frontend
+const frontendPath = path.join(__dirname, "dist/store/browser");
+app.use(express.static(frontendPath));
 
 // ✅ API Route for Stripe Checkout
 app.post("/api/checkout", async (req, res, next) => {
@@ -66,11 +67,11 @@ app.post("/api/checkout", async (req, res, next) => {
   }
 });
 
-// ✅ Catch-all route to serve Angular frontend
+// ✅ Catch-all route to serve Angular index.html
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist/store/browser/index.html"));
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-// Start the server
+// ✅ Start the Server
 const PORT = process.env.PORT || 4242;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
