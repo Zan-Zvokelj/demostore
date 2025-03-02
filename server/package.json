@@ -1,17 +1,16 @@
 {
-  "name": "server",
+  "name": "store",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "build": "ng build --configuration production"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.1",
-    "stripe": "^10.7.0"
+    "stripe": "^10.7.0",
+    "dotenv": "^16.0.3",
+    "body-parser": "^1.20.0"
   }
 }

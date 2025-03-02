@@ -1,63 +1,48 @@
 const express = require("express");
 const cors = require("cors");
-const bodyparser = require("body-parser");
+const bodyParser = require("body-parser");
+const path = require("path");
+const dotenv = require("dotenv");
+const stripe = require("stripe")(process.env.SECRET_KEY);
+
+dotenv.config();
 
 const app = express();
-app.use(express.static("public"));
-app.use(bodyparser.urlencoded({ extended: false }));
-app.use(bodyparser.json());
+
+// Middleware
 app.use(cors({ origin: true, credentials: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-require("dotenv").config();
-console.log("Secret Key:", process.env.SECRET_KEY);
+// Serve Angular frontend
+app.use(express.static(path.join(__dirname, "dist/store/browser")));
 
-app.post("/checkout", async (req, res, next) => {
+// ✅ API Route for Stripe Checkout
+app.post("/api/checkout", async (req, res, next) => {
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      shipping_address_collection: {
-        allowed_countries: ["US", "CA"],
-      },
+      shipping_address_collection: { allowed_countries: ["US", "CA"] },
       shipping_options: [
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: {
-              amount: 0,
-              currency: "usd",
-            },
+            fixed_amount: { amount: 0, currency: "usd" },
             display_name: "Free shipping",
-            // Delivers between 5-7 business days
             delivery_estimate: {
-              minimum: {
-                unit: "business_day",
-                value: 5,
-              },
-              maximum: {
-                unit: "business_day",
-                value: 7,
-              },
+              minimum: { unit: "business_day", value: 5 },
+              maximum: { unit: "business_day", value: 7 },
             },
           },
         },
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: {
-              amount: 1500,
-              currency: "usd",
-            },
+            fixed_amount: { amount: 1500, currency: "usd" },
             display_name: "Next day air",
-            // Delivers in exactly 1 business day
             delivery_estimate: {
-              minimum: {
-                unit: "business_day",
-                value: 1,
-              },
-              maximum: {
-                unit: "business_day",
-                value: 1,
-              },
+              minimum: { unit: "business_day", value: 1 },
+              maximum: { unit: "business_day", value: 1 },
             },
           },
         },
@@ -65,17 +50,14 @@ app.post("/checkout", async (req, res, next) => {
       line_items: req.body.items.map((item) => ({
         price_data: {
           currency: "usd",
-          product_data: {
-            name: item.name,
-            images: [item.product],
-          },
+          product_data: { name: item.name, images: [item.product] },
           unit_amount: item.price * 100,
         },
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: "http://localhost:4242/success.html",
-      cancel_url: "http://localhost:4242/cancel.html",
+      success_url: "https://yourdomain.com/success",
+      cancel_url: "https://yourdomain.com/cancel",
     });
 
     res.status(200).json(session);
@@ -84,4 +66,11 @@ app.post("/checkout", async (req, res, next) => {
   }
 });
 
-app.listen(4242, () => console.log("app is running on 4242"));
+// ✅ Catch-all route to serve Angular frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist/store/browser/index.html"));
+});
+
+// Start the server
+const PORT = process.env.PORT || 4242;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
