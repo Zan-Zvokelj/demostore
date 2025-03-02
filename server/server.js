@@ -15,7 +15,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // ✅ Serve Angular frontend
-const frontendPath = path.join(__dirname, "dist/store/browser");
+const frontendPath = path.join(__dirname, "../dist/store/browser");
+
 app.use(express.static(frontendPath));
 
 // ✅ API Route for Stripe Checkout

@@ -17,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/store/browser/index.html"
+      "dest": "dist/store/browser/$1"
     }
   ]
 }
