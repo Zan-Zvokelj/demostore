@@ -1,0 +1,63 @@
+<mat-toolbar class="justify-between p-4 bg-primary text-white">
+  <a routerLink="home" class="text-xl font-semibold hover:underline"
+    >Demo Store</a
+  >
+
+  <!-- Shopping Cart Button with Badge -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Shopping Cart">
+    <mat-icon
+      [matBadge]="itemsQuantity"
+      [matBadgeHidden]="!itemsQuantity"
+      matBadgeColor="warn"
+      aria-hidden="false"
+    >
+      shopping_cart
+    </mat-icon>
+  </button>
+
+  <!-- Menu for Cart Details -->
+  <mat-menu #menu="matMenu">
+    <div class="p-4 divide-y divide-solid">
+      <!-- Cart Summary Section -->
+      <div class="pb-4 flex justify-between items-center">
+        <span class="font-medium">{{ cart.items.length }} items</span>
+        <a
+          routerLink="cart"
+          class="text-sm font-medium text-blue-500 hover:underline"
+          >View Cart</a
+        >
+      </div>
+
+      <div *ngIf="cart.items.length" class="py-4">
+        <div *ngFor="let item of cart.items" class="flex justify-between mb-3 border-b border-sky-600">
+          <span class="text-sm">{{ item.name }} x {{ item.quantity }}</span>
+          <span class="font-semibold">{{ item.price | currency }}</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between py-4 text-sm">
+        <span class="font-medium">Total:</span>
+        <span class="font-semibold">{{ getTotal(cart.items) | currency }}</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-4 flex justify-between">
+        <!-- Clear Cart Button -->
+        <button
+          (click)="onClearCart()"
+          class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center"
+        >
+          <mat-icon>remove_shopping_cart</mat-icon>
+        </button>
+
+        <!-- Checkout Button -->
+        <button
+          routerLink="cart"
+          class="bg-green-600 text-white rounded-full w-10 h-10 flex items-center justify-center"
+        >
+          <mat-icon>shopping_cart_checkout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-menu>
+</mat-toolbar>

@@ -1,0 +1,165 @@
+<mat-card
+  *ngIf="cart.items.length"
+  class="mx-auto my-5 max-w-7xl p-5 shadow-lg rounded-lg bg-white"
+>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full">
+    <ng-container matColumnDef="product">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-left py-3 px-6 font-semibold text-sm text-gray-700"
+      >
+        Product
+      </th>
+      <td mat-cell *matCellDef="let element" class="py-4 px-6">
+        <img
+          src="{{ element.product }}"
+          alt="product"
+          class="w-[100px] rounded-md"
+        />
+      </td>
+      <td mat-footer-cell *matFooterCellDef class="py-4 px-6 text-right">
+        <button
+          mat-raised-button
+          routerLink="/home"
+          class="bg-gray-600 p-2 text-white hover:bg-gray-700 rounded-full"
+        >
+          Continue Shopping
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-left py-3 px-6 font-semibold text-sm text-gray-700"
+      >
+        Name
+      </th>
+      <td mat-cell *matCellDef="let element" class="py-4 px-6">
+        <p class="truncate max-w-xs text-gray-900">{{ element.name }}</p>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-left py-3 px-6 font-semibold text-sm text-gray-700"
+      >
+        Price
+      </th>
+      <td mat-cell *matCellDef="let element" class="py-4 px-6 text-gray-800">
+        {{ element.price | currency }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-left py-3 px-6 font-semibold text-sm text-gray-700"
+      >
+        Quantity
+      </th>
+      <td mat-cell *matCellDef="let element" class="py-4 px-6">
+        <div class="flex items-center space-x-3">
+          <button
+            mat-icon-button
+            (click)="onRemoveQuantity(element)"
+            class="text-red-600 hover:text-red-800"
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+          <span class="text-gray-900">{{ element.quantity }}</span>
+          <button
+            mat-icon-button
+            (click)="onAddQuantity(element)"
+            class="text-green-600 hover:text-green-800"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-left py-3 px-6 font-semibold text-sm text-gray-700"
+      >
+        Total
+      </th>
+      <td mat-cell *matCellDef="let element" class="py-4 px-6 text-gray-800">
+        {{ element.quantity * element.price | currency }}
+      </td>
+      <td
+        mat-footer-cell
+        *matFooterCellDef
+        class="py-4 px-6 font-bold text-gray-900"
+      >
+        <span class="py-5 block">{{ getTotal(cart.items) | currency }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-left py-3 px-6 font-semibold text-sm text-gray-700"
+      ></th>
+      <td mat-cell *matCellDef="let element" class="py-4 px-6 text-right">
+        <button
+          (click)="onRemoveFromCart(element)"
+          mat-mini-fab
+          color="warn"
+          class="bg-red-600 text-white hover:bg-red-700"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </td>
+      <td mat-footer-cell *matFooterCellDef class="py-4 px-6">
+        <button
+          (click)="onCheckout()"
+          mat-raised-button
+          color="primary"
+          class="bg-green-600 p-2 rounded-full text-white hover:bg-green-700"
+        >
+          Proceed To Checkout
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header Row -->
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+      class="bg-gray-100"
+    ></tr>
+    <!-- Data Row -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Footer Row -->
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+</mat-card>
+
+<mat-card
+  *ngIf="!cart.items.length"
+  class="mx-auto my-3 max-w-7xl p-5 shadow-lg rounded-lg bg-white"
+>
+  <p class="text-center text-lg text-gray-700">
+    Your cart is empty.
+    <button
+      mat-raised-button
+      routerLink="/home"
+      class="mt-4 bg-gray-600 p-2 rounded-full text-white hover:bg-gray-700"
+    >
+      Start Shopping
+    </button>
+  </p>
+</mat-card>

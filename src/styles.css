@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+html,
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: linear-gradient(to right, #eff6ff, #e9d8fd, #c7d2fe);
+  height: 100%;
+}
+
+body {
+  min-height: 100vh; /* Ensures full viewport height */
+}

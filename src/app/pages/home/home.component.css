@@ -1,0 +1,10 @@
+mat-drawer {
+  width: 120px !important;
+}
+
+@media (min-width: 640px) {
+  /* sm breakpoint */
+  mat-drawer {
+    width: 360px !important;
+  }
+}
