@@ -8,9 +8,8 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use(cors({ origin: true, credentials: true }));
 
-require("dotenv").config(); // Load environment variables
-
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+require("dotenv").config();
+console.log("Secret Key:", process.env.SECRET_KEY);
 
 app.post("/checkout", async (req, res, next) => {
   try {
