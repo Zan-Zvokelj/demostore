@@ -19,8 +19,8 @@ app.use(cors(corsOptions)); // Use CORS middleware with specific options
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// ✅ Serve Angular frontend
-const frontendPath = path.join(process.cwd(), "dist/store/browser");
+// ✅ Serve Angular frontend (Updated to handle Heroku file structure)
+const frontendPath = path.join(process.cwd(), "dist", "store", "browser");
 
 app.use(express.static(frontendPath));
 
