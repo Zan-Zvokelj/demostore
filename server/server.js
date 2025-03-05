@@ -9,8 +9,13 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors({ origin: true, credentials: true }));
+// ✅ Allow specific origin (your frontend hosted on Heroku)
+const corsOptions = {
+  origin: "https://demostore-141c417796b3.herokuapp.com", // Update this with your frontend URL
+  credentials: true, // Allow cookies if necessary
+};
+
+app.use(cors(corsOptions)); // Use CORS middleware with specific options
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
