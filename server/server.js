@@ -9,6 +9,8 @@ dotenv.config();
 
 const app = express();
 
+app.options("/checkout", cors(corsOptions)); // Handle preflight requests for checkout
+
 // ✅ Allow specific origin (your frontend hosted on Heroku)
 const corsOptions = {
   origin: "https://demostore-141c417796b3.herokuapp.com", // Update this with your frontend URL
