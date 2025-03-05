@@ -9,8 +9,6 @@ dotenv.config();
 
 const app = express();
 
-app.options("/checkout", cors(corsOptions)); // Handle preflight requests for checkout
-
 // ✅ Allow specific origin (your frontend hosted on Heroku)
 const corsOptions = {
   origin: "https://demostore-141c417796b3.herokuapp.com", // Update this with your frontend URL
@@ -27,8 +25,7 @@ const frontendPath = path.join(process.cwd(), "dist/store/browser");
 app.use(express.static(frontendPath));
 
 // ✅ API Route for Stripe Checkout
-app.post("/checkout", async (req, res, next) => {
-  // Updated route from '/api/checkout' to '/checkout'
+app.post("/checkout", async (req, res, next) => { // Updated route from '/api/checkout' to '/checkout'
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
