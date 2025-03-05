@@ -20,12 +20,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // ✅ Serve Angular frontend
-const frontendPath = path.join(process.cwd(), "dist/store/browser/browser");
+const frontendPath = path.join(process.cwd(), "dist/store/browser");
 
 app.use(express.static(frontendPath));
 
 // ✅ API Route for Stripe Checkout
-app.post("/api/checkout", async (req, res, next) => {
+app.post("/checkout", async (req, res, next) => {
+  // Updated route from '/api/checkout' to '/checkout'
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -63,8 +64,8 @@ app.post("/api/checkout", async (req, res, next) => {
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: "https://yourdomain.com/success",
-      cancel_url: "https://yourdomain.com/cancel",
+      success_url: "https://demostore-141c417796b3.herokuapp.com/success", // Replace with your actual success URL
+      cancel_url: "https://demostore-141c417796b3.herokuapp.com/cancel", // Replace with your actual cancel URL
     });
 
     res.status(200).json(session);
