@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // ✅ Serve Angular frontend
-const frontendPath = path.join(__dirname, "./public");
+const frontendPath = path.join(process.cwd(), "dist/store/browser/browser");
 
 app.use(express.static(frontendPath));
 
