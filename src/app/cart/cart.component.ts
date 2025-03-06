@@ -68,7 +68,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   onCheckout(): void {
     this.http
-      .post('https://demostore-141c417796b3.herokuapp.com/checkout', {
+      .post('localhost:4242/checkout', {
         items: this.cart.items,
       })
       .subscribe(
