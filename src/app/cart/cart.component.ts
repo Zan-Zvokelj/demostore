@@ -68,7 +68,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   onCheckout(): void {
     this.http
-      .post('localhost:4242/checkout', {
+      .post('/checkout', {
         items: this.cart.items,
       })
       .subscribe(
