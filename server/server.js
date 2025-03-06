@@ -12,12 +12,6 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const corsOptions = {
-  origin: 'https://zan-zvokelj.github.io', // Replace with the correct domain
-  credentials: true
-};
-
-app.use(cors(corsOptions));
 
 app.post("/api/checkout", async (req, res, next) => {
   try {
